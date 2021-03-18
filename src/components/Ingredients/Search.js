@@ -7,6 +7,7 @@ const Search = React.memo((props) => {
   const {searchIngredientData} = props
   const [searchData,setSearchData]=useState('')
   useEffect(() => {
+    props.loading(true)
     let query = searchData.length === 0 ? '':`?orderBy="title"&equalTo="${searchData}"`
     fetch(
       "https://react-hooks-update-6a9e1-default-rtdb.firebaseio.com/ingredients.json" + query
@@ -22,6 +23,9 @@ const Search = React.memo((props) => {
             title: resData[key].title,
             amount: resData[key].amount,
           });
+        }
+        if(newArray.length !== 0){
+          props.loading(false)
         }
          searchIngredientData(newArray)
       });
